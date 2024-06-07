@@ -7,6 +7,72 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <TabControl>
+            <TabItem Header="Employee" Unloaded="TabItem_Unloaded">
+                <TabItem.Content>
+                    <StackPanel>
+                        <DataGrid x:Name="EmployeeDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Delete"/>
+                                    <MenuItem Header="Refresh" x:Name="RefreshEmployeeBtn" Click="Refresh_Click" />
+                                    <MenuItem Header="Save" x:Name="SaveEmployeeBtn" Click="Save_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Id_Employee}" Header="Id"/>
+                                <DataGridTextColumn Binding="{Binding FIO}" Header="ФИО"/>
+                                <DataGridTextColumn Binding="{Binding Department_Name}" Header="Подразделение"/>
+                                <DataGridTextColumn Binding="{Binding Labor_Participation_Rate}" Header="КТУ"/>
+                                <DataGridTextColumn Binding="{Binding Amount_Employees_Contract}" Header="Сумма по договору сотруднику"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem Header="Department" Unloaded="TabItem_Unloaded">
+                <TabItem.Content>
+                    <StackPanel>
+                        <DataGrid x:Name="DepartmentDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Delete"/>
+                                    <MenuItem Header="Refresh" x:Name="RefreshDepartmentBtn" Click="Refresh_Click"/>
+                                    <MenuItem Header="Save" Click="Save_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Id_Department}" Header="Id"/>
+                                <DataGridTextColumn Binding="{Binding Name}" Header="Название отдела"/>
+                                <DataGridTextColumn Binding="{Binding Decription}" Header="Описание отдела"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem Header="Contract" Unloaded="TabItem_Unloaded">
+                <TabItem.Content>
+                    <StackPanel>
+                        <DataGrid x:Name="ContractDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Delete"/>
+                                    <MenuItem Header="Refresh" x:Name="RefreshContractBtn" Click="Refresh_Click"/>
+                                    <MenuItem Header="Save" Click="Save_Click"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Id_Contract}" Header="Id"/>
+                                <DataGridTextColumn Binding="{Binding Number}" Header="Номер договора"/>
+                                <DataGridTextColumn Binding="{Binding Name}" Header="Навзание"/>
+                                <DataGridTextColumn Binding="{Binding End_Date}" Header="Срок окончания"/>
+                                <DataGridTextColumn Binding="{Binding Amount_Contract}" Header="Сумма договора"/>
+                                <DataGridTextColumn Binding="{Binding Wage_Fund}" Header="Фонд оплаты труда, %"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
