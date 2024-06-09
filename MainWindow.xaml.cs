@@ -1,6 +1,7 @@
 ﻿using PP05Tretyakov.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -22,16 +23,14 @@ namespace PP05Tretyakov
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        PP05TretyakovEntities db;
+        private PP05TretyakovEntities _db;
         public MainWindow()
         {
             InitializeComponent();
-            db = new PP05TretyakovEntities();
-            db.Employee.Load();
-            db.Contract.Load();
-            db.Department.Load();
-
+            _db = new PP05TretyakovEntities();
+            _db.Employee.Load();
+            _db.Contract.Load();
+            _db.Department.Load();
         }
 
 
@@ -43,35 +42,25 @@ namespace PP05Tretyakov
 
             switch (tableName)
             {
-                case "Employee": EmployeeDG.ItemsSource = db.Employee.Local.ToBindingList(); break;
-                case "Contract": ContractDG.ItemsSource = db.Contract.Local.ToBindingList(); break;
-                case "Department": DepartmentDG.ItemsSource = db.Department.Local.ToBindingList(); break;
+                case "Employee": EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
+                    DGComboBoxColumnDepartmentName.ItemsSource = _db.Department.ToList();
+                    DGComboBoxColumnContractNumber.ItemsSource = _db.Contract.ToList();
+                    break;
+                case "Contract": ContractDG.ItemsSource = _db.Contract.Local.ToBindingList(); break;
+                case "Department": DepartmentDG.ItemsSource = _db.Department.Local.ToBindingList(); break;
                 default: MessageBox.Show("No find any table", "Error"); break;
             }
-
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-
-            db.SaveChanges();
-
+            _db.SaveChanges();
         }
+        
 
-        private void TabItem_Unloaded(object sender, RoutedEventArgs e)
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            //var menuItem = sender as MenuItem;
-            //var tableName = menuItem.Name;
-            //using (var db = new PP05TretyakovEntities())
-            //{
-            //    switch (tableName)
-            //    {
-            //        case "Employee": db.Employee.; break;
-            //        case "Contract": ContractDG.ItemsSource = db.Contract.ToList(); break;
-            //        case "Department": DepartmentDG.ItemsSource = db.Department.ToList(); break;
-            //        default: MessageBox.Show("No find any table", "Error"); break;
-            //    }
-            //}
+            _db.Dispose();
         }
     }
 }

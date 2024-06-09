@@ -10,7 +10,7 @@
     <Property Name="End_Date" Type="DateTime" Precision="0" />
     <Property Name="Amount_Contract" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="Wage_Fund" Type="Decimal" Precision="5" Scale="2" />
-    <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Contract" FromRole="Contract" ToRole="Employee" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Contract1" FromRole="Contract" ToRole="Employee" />
   </EntityType>
   <EntityType Name="Department">
     <Key>
@@ -19,7 +19,20 @@
     <Property Name="Id_Department" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="65" FixedLength="true" Unicode="true" Nullable="false" />
     <Property Name="Decription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Department1" FromRole="Department" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id_Employee" />
+    </Key>
+    <Property Name="Id_Employee" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FIO" Type="String" MaxLength="65" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Department_Name" Type="String" MaxLength="65" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Labor_Participation_Rate" Type="Double" Nullable="false" />
+    <Property Name="Amount_Employees_Contract" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Contract_Number" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Contract" Relationship="Self.FK_Employee_Contract1" FromRole="Employee" ToRole="Contract" />
+    <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department1" FromRole="Employee" ToRole="Department" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -31,25 +44,7 @@
     <Property Name="version" Type="Int32" />
     <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
-  <EntityType Name="Employee">
-    <Key>
-      <PropertyRef Name="Id_Employee" />
-      <PropertyRef Name="FIO" />
-      <PropertyRef Name="Department_Name" />
-      <PropertyRef Name="Labor_Participation_Rate" />
-      <PropertyRef Name="Amount_Employees_Contract" />
-      <PropertyRef Name="Contract_Number" />
-    </Key>
-    <Property Name="Id_Employee" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FIO" Type="String" MaxLength="65" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Department_Name" Type="String" MaxLength="65" FixedLength="true" Unicode="true" Nullable="false" />
-    <Property Name="Labor_Participation_Rate" Type="Double" Nullable="false" />
-    <Property Name="Amount_Employees_Contract" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-    <Property Name="Contract_Number" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="Contract" Relationship="Self.FK_Employee_Contract" FromRole="Employee" ToRole="Contract" />
-    <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
-  </EntityType>
-  <Association Name="FK_Employee_Contract">
+  <Association Name="FK_Employee_Contract1">
     <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
     <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
     <ReferentialConstraint>
@@ -61,7 +56,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Employee_Department">
+  <Association Name="FK_Employee_Department1">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
     <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
     <ReferentialConstraint>
@@ -76,13 +71,13 @@
   <EntityContainer Name="PP05TretyakovEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Contract" EntityType="Self.Contract" />
     <EntitySet Name="Department" EntityType="Self.Department" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="Employee" EntityType="Self.Employee" />
-    <AssociationSet Name="FK_Employee_Contract" Association="Self.FK_Employee_Contract">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <AssociationSet Name="FK_Employee_Contract1" Association="Self.FK_Employee_Contract1">
       <End Role="Contract" EntitySet="Contract" />
       <End Role="Employee" EntitySet="Employee" />
     </AssociationSet>
-    <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
+    <AssociationSet Name="FK_Employee_Department1" Association="Self.FK_Employee_Department1">
       <End Role="Department" EntitySet="Department" />
       <End Role="Employee" EntitySet="Employee" />
     </AssociationSet>

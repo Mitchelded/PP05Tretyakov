@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PP05Tretyakov"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Closing="MainWindow_OnClosing">
     <Grid>
         <TabControl>
-            <TabItem Header="Employee" Unloaded="TabItem_Unloaded">
+            <TabItem Header="Employee">
                 <TabItem.Content>
                     <StackPanel>
                         <DataGrid x:Name="EmployeeDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
@@ -22,15 +23,24 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Id_Employee}" Header="Id"/>
                                 <DataGridTextColumn Binding="{Binding FIO}" Header="ФИО"/>
-                                <DataGridTextColumn Binding="{Binding Department_Name}" Header="Подразделение"/>
+                                <DataGridComboBoxColumn x:Name="DGComboBoxColumnDepartmentName" Header="Подразделение"
+                                                        DisplayMemberPath="Name"
+                                                        SelectedValuePath="Name"
+                                                        SelectedValueBinding="{Binding Department_Name}"/>
+                                <!--<DataGridTextColumn Binding="{Binding Department_Name}" Header="Подразделение"/>-->
                                 <DataGridTextColumn Binding="{Binding Labor_Participation_Rate}" Header="КТУ"/>
                                 <DataGridTextColumn Binding="{Binding Amount_Employees_Contract}" Header="Сумма по договору сотруднику"/>
+                                <DataGridComboBoxColumn x:Name="DGComboBoxColumnContractNumber" Header="Номер договора"
+                                DisplayMemberPath="Number"
+                                SelectedValuePath="Number"
+                                SelectedValueBinding="{Binding Contract_Number}"/>
+                                <!--<DataGridTextColumn Binding="{Binding Contract_Number}" Header="Номер договора"/>-->
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>
-            <TabItem Header="Department" Unloaded="TabItem_Unloaded">
+            <TabItem Header="Department">
                 <TabItem.Content>
                     <StackPanel>
                         <DataGrid x:Name="DepartmentDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
@@ -50,7 +60,7 @@
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>
-            <TabItem Header="Contract" Unloaded="TabItem_Unloaded">
+            <TabItem Header="Contract">
                 <TabItem.Content>
                     <StackPanel>
                         <DataGrid x:Name="ContractDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-E:\Tretyakov\PP05Tretyakov\obj\Debug\
+C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\
 PP05Tretyakov
 none
 false
 DEBUG;TRACE
-E:\Tretyakov\PP05Tretyakov\App.xaml
+C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\App.xaml
 4-702671622
 2739969757
 181471563094
-18-918208717
+18-428052557
 MainWindow.xaml;Pages\AddContract.xaml;Pages\AddDepartment.xaml;Pages\AddEmployee.xaml;
 
-True
+False
 
