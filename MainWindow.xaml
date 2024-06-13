@@ -15,7 +15,7 @@
                         <ComboBox Width="100" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="CBDepartment" SelectionChanged="CBDepartment_SelectionChanged" >
                             <ComboBoxItem Content="All"/>
                         </ComboBox>
-                        <DataGrid x:Name="EmployeeDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,15,0,0" AutoGenerateColumns="False">
+                        <DataGrid x:Name="EmployeeDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,5,0,0" AutoGenerateColumns="False">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Delete"/>
@@ -40,6 +40,7 @@
                                 <!--<DataGridTextColumn Binding="{Binding Contract_Number}" Header="Номер договора"/>-->
                             </DataGrid.Columns>
                         </DataGrid>
+                        <TextBlock x:Name="TBSummary" Text="Summary" Margin="10,0,0,0" />
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>

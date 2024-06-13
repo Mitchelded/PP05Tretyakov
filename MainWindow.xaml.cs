@@ -75,9 +75,19 @@ namespace PP05Tretyakov
         {
             var t = CBDepartment.SelectedValue.ToString();
             if(t.Contains("All"))
+            {
                 EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
+                decimal summary = 0;
+                foreach (var item in _db.Contract.Local.ToList())
+                {
+                    summary += item.Amount_Contract;
+                }
+                TBSummary.Text = summary.ToString();
+            }
             else
+            {
                 EmployeeDG.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
+            }
         }
     }
 }
