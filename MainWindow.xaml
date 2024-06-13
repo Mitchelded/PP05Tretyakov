@@ -12,7 +12,10 @@
             <TabItem Header="Employee">
                 <TabItem.Content>
                     <StackPanel>
-                        <DataGrid x:Name="EmployeeDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
+                        <ComboBox Width="100" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="CBDepartment" SelectionChanged="CBDepartment_SelectionChanged" >
+                            <ComboBoxItem Content="All"/>
+                        </ComboBox>
+                        <DataGrid x:Name="EmployeeDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,15,0,0" AutoGenerateColumns="False">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Delete"/>
