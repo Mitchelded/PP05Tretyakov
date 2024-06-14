@@ -59,6 +59,13 @@
                                 <DataGridTextColumn Binding="{Binding Id_Department}" Header="Id"/>
                                 <DataGridTextColumn Binding="{Binding Name}" Header="Название отдела"/>
                                 <DataGridTextColumn Binding="{Binding Decription}" Header="Описание отдела"/>
+                                <!--<DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>-->
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -79,7 +86,14 @@
                                 <DataGridTextColumn Binding="{Binding Id_Contract}" Header="Id"/>
                                 <DataGridTextColumn Binding="{Binding Number}" Header="Номер договора"/>
                                 <DataGridTextColumn Binding="{Binding Name}" Header="Навзание"/>
-                                <DataGridTextColumn Binding="{Binding End_Date}" Header="Срок окончания"/>
+                                <!--<DataGridTextColumn Binding="{Binding End_Date}" Header="Срок окончания"/>-->
+                                <DataGridTemplateColumn Header="Срок окончания">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding End_Date}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Binding="{Binding Amount_Contract}" Header="Сумма договора"/>
                                 <DataGridTextColumn Binding="{Binding Wage_Fund}" Header="Фонд оплаты труда, %"/>
                             </DataGrid.Columns>
