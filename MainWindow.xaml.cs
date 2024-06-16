@@ -1,20 +1,9 @@
 ﻿using PP05Tretyakov.Model;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PP05Tretyakov
 {
@@ -31,6 +20,7 @@ namespace PP05Tretyakov
             _db.Employee.Load();
             _db.Contract.Load();
             _db.Department.Load();
+            CBDepartment.SelectedIndex = 0;
         }
 
 
@@ -43,7 +33,17 @@ namespace PP05Tretyakov
             switch (tableName)
             {
                 case "Employee":
-                    EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
+                    var t = CBDepartment.SelectedValue.ToString();
+                    if(t.Contains("All"))
+                    {
+                        EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
+                        var summary = CalculationOfContractAmounts();
+                        TBSummary.Text = summary.ToString();
+                    }
+                    else
+                    {
+                        EmployeeDG.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
+                    }
                     DGComboBoxColumnDepartmentName.ItemsSource = _db.Department.ToList();
                     DGComboBoxColumnContractNumber.ItemsSource = _db.Contract.ToList();
                     foreach (var item in _db.Department.ToList())
@@ -77,17 +77,30 @@ namespace PP05Tretyakov
             if(t.Contains("All"))
             {
                 EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
-                decimal summary = 0;
-                foreach (var item in _db.Contract.Local.ToList())
-                {
-                    summary += item.Amount_Contract;
-                }
+                var summary = CalculationOfContractAmounts();
                 TBSummary.Text = summary.ToString();
             }
             else
             {
                 EmployeeDG.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
             }
+        }
+
+        private decimal CalculationOfContractAmounts()
+        {
+            decimal summary = 0;
+            foreach (var item in EmployeeDG.ItemsSource)
+            {
+                // var contractAmount = _db.Contract
+                //     .Where(x => x.Number == employee.Contract_Number)
+                //     .Sum(x => x.Amount_Contract);
+                if (item is Employee employee)
+                {
+                    var contractAmount = employee.Amount_Employees_Contract;
+                    summary += contractAmount;
+                }
+            }
+            return summary;
         }
     }
 }

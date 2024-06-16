@@ -13,7 +13,7 @@
                 <TabItem.Content>
                     <StackPanel>
                         <ComboBox Width="100" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="CBDepartment" SelectionChanged="CBDepartment_SelectionChanged" >
-                            <ComboBoxItem Content="All"/>
+                            <ComboBoxItem Content="All" />
                         </ComboBox>
                         <DataGrid x:Name="EmployeeDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,5,0,0" AutoGenerateColumns="False">
                             <DataGrid.ContextMenu>
