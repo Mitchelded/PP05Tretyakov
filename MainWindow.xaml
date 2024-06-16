@@ -8,13 +8,16 @@
         Title="MainWindow" Height="450" Width="800"
         Closing="MainWindow_OnClosing">
     <Grid>
-        <TabControl>
+        <TabControl x:Name="TabControlName">
             <TabItem Header="Employee">
                 <TabItem.Content>
                     <StackPanel>
-                        <ComboBox Width="100" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="CBDepartment" SelectionChanged="CBDepartment_SelectionChanged" >
-                            <ComboBoxItem Content="All" />
-                        </ComboBox>
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox Width="100" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="CBDepartment" SelectionChanged="CBDepartment_SelectionChanged" >
+                                <ComboBoxItem Content="All" />
+                            </ComboBox>
+                            <Button Width="100" Margin="10,10,0,0" x:Name="BtnEmployeeToExcel" Content="To Excel" Click="BtnToExcel_OnClick"/>
+                        </StackPanel>
                         <DataGrid x:Name="EmployeeDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,5,0,0" AutoGenerateColumns="False">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
@@ -74,6 +77,9 @@
             <TabItem Header="Contract">
                 <TabItem.Content>
                     <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Width="100" Margin="10,10,0,0" x:Name="BtnContractToExcel" Content="To Excel" Click="BtnToExcel_OnClick"/>
+                        </StackPanel>
                         <DataGrid x:Name="ContractDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>

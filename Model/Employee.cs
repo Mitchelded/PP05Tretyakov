@@ -52,7 +52,10 @@ namespace PP05Tretyakov.Model
                         _amountEmployeesContract = value;
                     }
                 }
-                _amountEmployeesContract = value
+                else
+                {
+                    _amountEmployeesContract = value;
+                }
             }
         }
         public string Contract_Number { get; set; }
