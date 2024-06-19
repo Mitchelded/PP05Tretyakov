@@ -33,14 +33,14 @@
                                                         DisplayMemberPath="Name"
                                                         SelectedValuePath="Name"
                                                         SelectedValueBinding="{Binding Department_Name}"/>
-                                <!--<DataGridTextColumn Binding="{Binding Department_Name}" Header="Подразделение"/>-->
+                                
                                 <DataGridTextColumn Binding="{Binding Labor_Participation_Rate}" Header="КТУ"/>
                                 <DataGridTextColumn Binding="{Binding Amount_Employees_Contract}" Header="Сумма по договору сотруднику"/>
                                 <DataGridComboBoxColumn x:Name="DGComboBoxColumnContractNumber" Header="Номер договора"
                                 DisplayMemberPath="Number"
                                 SelectedValuePath="Number"
                                 SelectedValueBinding="{Binding Contract_Number}"/>
-                                <!--<DataGridTextColumn Binding="{Binding Contract_Number}" Header="Номер договора"/>-->
+                                
                             </DataGrid.Columns>
                         </DataGrid>
                         <TextBlock x:Name="TBSummary" Text="Summary" Margin="10,0,0,0" />
@@ -62,13 +62,7 @@
                                 <DataGridTextColumn Binding="{Binding Id_Department}" Header="Id"/>
                                 <DataGridTextColumn Binding="{Binding Name}" Header="Название отдела"/>
                                 <DataGridTextColumn Binding="{Binding Decription}" Header="Описание отдела"/>
-                                <!--<DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>-->
+                               
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
@@ -92,7 +86,7 @@
                                 <DataGridTextColumn Binding="{Binding Id_Contract}" Header="Id"/>
                                 <DataGridTextColumn Binding="{Binding Number}" Header="Номер договора"/>
                                 <DataGridTextColumn Binding="{Binding Name}" Header="Навзание"/>
-                                <!--<DataGridTextColumn Binding="{Binding End_Date}" Header="Срок окончания"/>-->
+                               
                                 <DataGridTemplateColumn Header="Срок окончания">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

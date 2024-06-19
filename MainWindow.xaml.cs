@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using PP05Tretyakov.Model;
 using System.ComponentModel;
@@ -22,69 +23,98 @@ namespace PP05Tretyakov
         public MainWindow()
         {
             InitializeComponent();
-            _db = new PP05TretyakovEntities();
-            _db.Employee.Load();
-            _db.Contract.Load();
-            _db.Department.Load();
-            CBDepartment.SelectedIndex = 0;
+            try
+            {
+                _db = new PP05TretyakovEntities();
+                try
+                {
+                    _db.Database.CreateIfNotExists();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error Create Database", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                _db.Employee.Load();
+                _db.Contract.Load();
+                _db.Department.Load();
+                CBDepartment.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            var menuItem = sender as MenuItem;
-            var tableName = menuItem.Name.Replace("Refresh", "").Replace("Btn", "");
-
-            switch (tableName)
+            try
             {
-                case "Employee":
-                    var t = CBDepartment.SelectedValue.ToString();
-                    if (t.Contains("All"))
-                    {
-                        EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
-                        var summary = CalculationOfContractAmounts();
-                        TBSummary.Text = summary.ToString();
-                    }
-                    else
-                    {
-                        EmployeeDG.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
-                    }
+                var menuItem = sender as MenuItem;
+                var tableName = menuItem.Name.Replace("Refresh", "").Replace("Btn", "");
 
-                    DGComboBoxColumnDepartmentName.ItemsSource = _db.Department.ToList();
-                    DGComboBoxColumnContractNumber.ItemsSource = _db.Contract.ToList();
-
-                    var departments = _db.Department.ToList();
-                    var existingItems = new HashSet<string>();
-
-                    foreach (var item in CBDepartment.Items)
-                    {
-                        existingItems.Add(item.ToString());
-                    }
-
-                    foreach (var department in departments)
-                    {
-                        if (!existingItems.Contains(department.Name))
+                switch (tableName)
+                {
+                    case "Employee":
+                        var t = CBDepartment.SelectedValue.ToString();
+                        if (t.Contains("All"))
                         {
-                            CBDepartment.Items.Add(department.Name);
+                            EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
+                            var summary = CalculationOfContractAmounts();
+                            TBSummary.Text = summary.ToString();
                         }
-                    }
+                        else
+                        {
+                            EmployeeDG.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
+                        }
 
-                    break;
-                case "Contract":
-                    ContractDG.ItemsSource = _db.Contract.Local.ToBindingList();
-                    break;
-                case "Department":
-                    DepartmentDG.ItemsSource = _db.Department.Local.ToBindingList();
-                    break;
-                default:
-                    MessageBox.Show("No find any table", "Error");
-                    break;
+                        DGComboBoxColumnDepartmentName.ItemsSource = _db.Department.ToList();
+                        DGComboBoxColumnContractNumber.ItemsSource = _db.Contract.ToList();
+
+                        var departments = _db.Department.ToList();
+                        var existingItems = new HashSet<string>();
+
+                        foreach (var item in CBDepartment.Items)
+                        {
+                            existingItems.Add(item.ToString());
+                        }
+
+                        foreach (var department in departments)
+                        {
+                            if (!existingItems.Contains(department.Name))
+                            {
+                                CBDepartment.Items.Add(department.Name);
+                            }
+                        }
+
+                        break;
+                    case "Contract":
+                        ContractDG.ItemsSource = _db.Contract.Local.ToBindingList();
+                        break;
+                    case "Department":
+                        DepartmentDG.ItemsSource = _db.Department.Local.ToBindingList();
+                        break;
+                    default:
+                        MessageBox.Show("No find any table", "Error");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            _db.SaveChanges();
+            try
+            {
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
@@ -95,118 +125,144 @@ namespace PP05Tretyakov
 
         private void CBDepartment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var t = CBDepartment.SelectedValue.ToString();
-            if (t.Contains("All"))
+            try
             {
-                EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
-                var summary = CalculationOfContractAmounts();
-                TBSummary.Text = summary.ToString();
+                var t = CBDepartment.SelectedValue.ToString();
+                if (t.Contains("All"))
+                {
+                    EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
+                    var summary = CalculationOfContractAmounts();
+                    TBSummary.Text = summary.ToString();
+                }
+                else
+                {
+                    EmployeeDG.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
+                    var summary = CalculationOfContractAmounts();
+                    TBSummary.Text = summary.ToString();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                EmployeeDG.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
-                var summary = CalculationOfContractAmounts();
-                TBSummary.Text = summary.ToString();
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private decimal CalculationOfContractAmounts()
         {
-            decimal summary = 0;
-            foreach (var item in EmployeeDG.ItemsSource)
+            try
             {
-                // var contractAmount = _db.Contract
-                //     .Where(x => x.Number == employee.Contract_Number)
-                //     .Sum(x => x.Amount_Contract);
-                if (item is Employee employee)
+                decimal summary = 0;
+                foreach (var item in EmployeeDG.ItemsSource)
                 {
-                    var contractAmount = employee.Amount_Employees_Contract;
-                    summary += contractAmount;
+                    if (item is Employee employee)
+                    {
+                        var contractAmount = employee.Amount_Employees_Contract;
+                        summary += contractAmount;
+                    }
                 }
-            }
 
-            return summary;
+                return summary;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return -1;
+            }
         }
 
         public void ExportDataGridToExcel(DataGrid dataGrid, List<string> columnsToExclude, decimal summary = 0)
         {
-            // Открываем диалоговое окно "Сохранить как"
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            try
             {
-                Filter = "Excel files (*.xlsx)|*.xlsx",
-                DefaultExt = ".xlsx",
-                FileName = "Report.xlsx"
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                string filePath = saveFileDialog.FileName;
-
-                // Создаем новую книгу Excel
-                using (var workbook = new XLWorkbook())
+                // Открываем диалоговое окно "Сохранить как"
+                SaveFileDialog saveFileDialog = new SaveFileDialog
                 {
-                    // Создаем рабочий лист
-                    var worksheet = workbook.Worksheets.Add("Sheet1");
+                    Filter = "Excel files (*.xlsx)|*.xlsx",
+                    DefaultExt = ".xlsx",
+                    FileName = "Report.xlsx"
+                };
 
-                    // Получаем элементы DataGrid
-                    var itemsSource = dataGrid.ItemsSource as IEnumerable;
-                    if (itemsSource == null) return;
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    string filePath = saveFileDialog.FileName;
 
-                    // Получаем тип данных элементов
-                    var itemType = itemsSource.Cast<object>().FirstOrDefault()?.GetType();
-                    if (itemType == null) return;
-
-                    // Получаем свойства типа данных
-                    var properties = itemType.GetProperties()
-                        .Where(p => !columnsToExclude.Contains(p.Name))
-                        .ToArray();
-
-                    // Записываем заголовки
-                    int colIndex = 1;
-                    foreach (var column in dataGrid.Columns)
+                    // Создаем новую книгу Excel
+                    using (var workbook = new XLWorkbook())
                     {
-                        var header = column.Header.ToString();
-                        if (!columnsToExclude.Contains(header))
+                        // Создаем рабочий лист
+                        var worksheet = workbook.Worksheets.Add("Sheet1");
+
+                        // Получаем элементы DataGrid
+                        var itemsSource = dataGrid.ItemsSource as IEnumerable;
+                        if (itemsSource == null) return;
+
+                        // Получаем тип данных элементов
+                        var itemType = itemsSource.Cast<object>().FirstOrDefault()?.GetType();
+                        if (itemType == null) return;
+
+                        // Получаем свойства типа данных
+                        var properties = itemType.GetProperties()
+                            .Where(p => !columnsToExclude.Contains(p.Name))
+                            .ToArray();
+
+                        // Записываем заголовки
+                        int colIndex = 1;
+                        foreach (var column in dataGrid.Columns)
                         {
-                            worksheet.Cell(1, colIndex).Value = header;
-                            colIndex++;
+                            var header = column.Header.ToString();
+                            if (!columnsToExclude.Contains(header))
+                            {
+                                worksheet.Cell(1, colIndex).Value = header;
+                                colIndex++;
+                            }
                         }
-                    }
 
-                    // Записываем данные
-                    int row = 2;
-                    foreach (var item in itemsSource)
-                    {
-                        for (int col = 0; col < properties.Length; col++)
+                        // Записываем данные
+                        int row = 2;
+                        foreach (var item in itemsSource)
                         {
-                            var value = properties[col].GetValue(item);
-                            worksheet.Cell(row, col + 1).Value = value?.ToString();
+                            for (int col = 0; col < properties.Length; col++)
+                            {
+                                var value = properties[col].GetValue(item);
+                                worksheet.Cell(row, col + 1).Value = value?.ToString();
+                            }
+
+                            row++;
                         }
 
-                        row++;
+                        worksheet.Cell(row, 1).Value = "Summary";
+                        worksheet.Cell(row, 2).Value = summary;
+                        // Сохраняем файл
+                        workbook.SaveAs(filePath);
                     }
-
-                    worksheet.Cell(row, 1).Value = "Summary";
-                    worksheet.Cell(row, 2).Value = summary;
-                    // Сохраняем файл
-                    workbook.SaveAs(filePath);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void BtnToExcel_OnClick(object sender, RoutedEventArgs e)
         {
-            var tableName = TabControlName.SelectedItem as TabItem;
-            switch (tableName.Header)
+            try
             {
-                case "Employee":
-                    var columnsToEmployeeExclude = new List<string> { "Contract", "Department" , "Id" };
-                    ExportDataGridToExcel(EmployeeDG, columnsToEmployeeExclude, decimal.Parse(TBSummary.Text));
-                    break;
-                case "Contract":
-                    var columnsToContractExclude = new List<string> { "Id" };
-                    ExportDataGridToExcel(ContractDG, columnsToContractExclude);
-                    break;
+                var tableName = TabControlName.SelectedItem as TabItem;
+                switch (tableName.Header)
+                {
+                    case "Employee":
+                        var columnsToEmployeeExclude = new List<string> { "Contract", "Department", "Id" };
+                        ExportDataGridToExcel(EmployeeDG, columnsToEmployeeExclude, decimal.Parse(TBSummary.Text));
+                        break;
+                    case "Contract":
+                        var columnsToContractExclude = new List<string> { "Id" };
+                        ExportDataGridToExcel(ContractDG, columnsToContractExclude);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
