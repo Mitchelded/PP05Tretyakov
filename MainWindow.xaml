@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PP05Tretyakov"
+        xmlns:model="clr-namespace:PP05Tretyakov.Model"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Closing="MainWindow_OnClosing">
@@ -13,12 +14,12 @@
                 <TabItem.Content>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <ComboBox Width="100" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="CBDepartment" SelectionChanged="CBDepartment_SelectionChanged" >
+                            <ComboBox Width="100" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="CbDepartment" SelectionChanged="CBDepartment_SelectionChanged" >
                                 <ComboBoxItem Content="All" />
                             </ComboBox>
                             <Button Width="100" Margin="10,10,0,0" x:Name="BtnEmployeeToExcel" Content="To Excel" Click="BtnToExcel_OnClick"/>
                         </StackPanel>
-                        <DataGrid x:Name="EmployeeDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,5,0,0" AutoGenerateColumns="False">
+                        <DataGrid x:Name="EmployeeDg" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,5,0,0" AutoGenerateColumns="False">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Delete"/>
@@ -29,28 +30,28 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Id_Employee}" Header="Id"/>
                                 <DataGridTextColumn Binding="{Binding FIO}" Header="ФИО"/>
-                                <DataGridComboBoxColumn x:Name="DGComboBoxColumnDepartmentName" Header="Подразделение"
+                                <DataGridComboBoxColumn x:Name="DgComboBoxColumnDepartmentName" Header="Подразделение"
                                                         DisplayMemberPath="Name"
                                                         SelectedValuePath="Name"
                                                         SelectedValueBinding="{Binding Department_Name}"/>
                                 
                                 <DataGridTextColumn Binding="{Binding Labor_Participation_Rate}" Header="КТУ"/>
                                 <DataGridTextColumn Binding="{Binding Amount_Employees_Contract}" Header="Сумма по договору сотруднику"/>
-                                <DataGridComboBoxColumn x:Name="DGComboBoxColumnContractNumber" Header="Номер договора"
+                                <DataGridComboBoxColumn x:Name="DgComboBoxColumnContractNumber" Header="Номер договора"
                                 DisplayMemberPath="Number"
                                 SelectedValuePath="Number"
                                 SelectedValueBinding="{Binding Contract_Number}"/>
                                 
                             </DataGrid.Columns>
                         </DataGrid>
-                        <TextBlock x:Name="TBSummary" Text="Summary" Margin="10,0,0,0" />
+                        <TextBlock x:Name="TbSummary" Text="Summary" Margin="10,0,0,0" />
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>
             <TabItem Header="Department">
                 <TabItem.Content>
                     <StackPanel>
-                        <DataGrid x:Name="DepartmentDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
+                        <DataGrid x:Name="DepartmentDg" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Delete"/>
@@ -61,7 +62,7 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Id_Department}" Header="Id"/>
                                 <DataGridTextColumn Binding="{Binding Name}" Header="Название отдела"/>
-                                <DataGridTextColumn Binding="{Binding Decription}" Header="Описание отдела"/>
+                                <DataGridTextColumn Binding="{Binding Description}" Header="Описание отдела"/>
                                
                             </DataGrid.Columns>
                         </DataGrid>
@@ -74,7 +75,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Button Width="100" Margin="10,10,0,0" x:Name="BtnContractToExcel" Content="To Excel" Click="BtnToExcel_OnClick"/>
                         </StackPanel>
-                        <DataGrid x:Name="ContractDG" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
+                        <DataGrid x:Name="ContractDg" Width="700" HorizontalAlignment="Left" Height="350" Margin="10,25,0,0" AutoGenerateColumns="False">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Delete"/>
@@ -85,12 +86,13 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Id_Contract}" Header="Id"/>
                                 <DataGridTextColumn Binding="{Binding Number}" Header="Номер договора"/>
-                                <DataGridTextColumn Binding="{Binding Name}" Header="Навзание"/>
+                                <DataGridTextColumn Binding="{Binding Name}" Header="Название"/>
                                
                                 <DataGridTemplateColumn Header="Срок окончания">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <DatePicker SelectedDate="{Binding End_Date}"/>
+                                            <DatePicker SelectedDate="{Binding End_Date}"
+                                                        d:DataContext="{d:DesignInstance Type=model:Contract, IsDesignTimeCreatable=True}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

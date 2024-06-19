@@ -34,17 +34,10 @@ C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\bin\Debug\EntityFramework.xml
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\PP05Tretyakov.csproj.AssemblyReference.cache
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\MainWindow.g.cs
-C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\Pages\AddContract.g.cs
-C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\Pages\AddDepartment.g.cs
-C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\Pages\AddEmployee.g.cs
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\App.g.cs
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\PP05Tretyakov_Content.g.cs
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\PP05Tretyakov_MarkupCompile.cache
-C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\PP05Tretyakov_MarkupCompile.lref
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\MainWindow.baml
-C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\Pages\AddContract.baml
-C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\Pages\AddDepartment.baml
-C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\Pages\AddEmployee.baml
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\PP05Tretyakov.g.resources
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\PP05Tretyakov.Properties.Resources.resources
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\PP05Tretyakov.csproj.GenerateResource.cache
@@ -101,3 +94,4 @@ C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\bin\Debug\System.IO.Packaging.xml
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\bin\Debug\System.Memory.xml
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Mitchelde\RiderProjects\PP05Tretyakov\obj\Debug\PP05Tretyakov_MarkupCompile.lref

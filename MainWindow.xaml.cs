@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using PP05Tretyakov.Model;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.Win32;
 
 namespace PP05Tretyakov
@@ -16,9 +16,9 @@ namespace PP05Tretyakov
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private PP05TretyakovEntities _db;
+        private readonly PP05TretyakovEntities _db;
 
         public MainWindow()
         {
@@ -37,7 +37,7 @@ namespace PP05Tretyakov
                 _db.Employee.Load();
                 _db.Contract.Load();
                 _db.Department.Load();
-                CBDepartment.SelectedIndex = 0;
+                CbDepartment.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -50,53 +50,55 @@ namespace PP05Tretyakov
         {
             try
             {
-                var menuItem = sender as MenuItem;
-                var tableName = menuItem.Name.Replace("Refresh", "").Replace("Btn", "");
-
-                switch (tableName)
+                if (sender is MenuItem menuItem)
                 {
-                    case "Employee":
-                        var t = CBDepartment.SelectedValue.ToString();
-                        if (t.Contains("All"))
-                        {
-                            EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
-                            var summary = CalculationOfContractAmounts();
-                            TBSummary.Text = summary.ToString();
-                        }
-                        else
-                        {
-                            EmployeeDG.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
-                        }
+                    var tableName = menuItem.Name.Replace("Refresh", "").Replace("Btn", "");
 
-                        DGComboBoxColumnDepartmentName.ItemsSource = _db.Department.ToList();
-                        DGComboBoxColumnContractNumber.ItemsSource = _db.Contract.ToList();
-
-                        var departments = _db.Department.ToList();
-                        var existingItems = new HashSet<string>();
-
-                        foreach (var item in CBDepartment.Items)
-                        {
-                            existingItems.Add(item.ToString());
-                        }
-
-                        foreach (var department in departments)
-                        {
-                            if (!existingItems.Contains(department.Name))
+                    switch (tableName)
+                    {
+                        case "Employee":
+                            var t = CbDepartment.SelectedValue.ToString();
+                            if (t.Contains("All"))
                             {
-                                CBDepartment.Items.Add(department.Name);
+                                EmployeeDg.ItemsSource = _db.Employee.Local.ToBindingList();
+                                var summary = CalculationOfContractAmounts();
+                                TbSummary.Text = summary.ToString(CultureInfo.InvariantCulture);
                             }
-                        }
+                            else
+                            {
+                                EmployeeDg.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
+                            }
 
-                        break;
-                    case "Contract":
-                        ContractDG.ItemsSource = _db.Contract.Local.ToBindingList();
-                        break;
-                    case "Department":
-                        DepartmentDG.ItemsSource = _db.Department.Local.ToBindingList();
-                        break;
-                    default:
-                        MessageBox.Show("No find any table", "Error");
-                        break;
+                            DgComboBoxColumnDepartmentName.ItemsSource = _db.Department.ToList();
+                            DgComboBoxColumnContractNumber.ItemsSource = _db.Contract.ToList();
+
+                            var departments = _db.Department.ToList();
+                            var existingItems = new HashSet<string>();
+
+                            foreach (var item in CbDepartment.Items)
+                            {
+                                existingItems.Add(item.ToString());
+                            }
+
+                            foreach (var department in departments)
+                            {
+                                if (!existingItems.Contains(department.Name))
+                                {
+                                    CbDepartment.Items.Add(department.Name);
+                                }
+                            }
+
+                            break;
+                        case "Contract":
+                            ContractDg.ItemsSource = _db.Contract.Local.ToBindingList();
+                            break;
+                        case "Department":
+                            DepartmentDg.ItemsSource = _db.Department.Local.ToBindingList();
+                            break;
+                        default:
+                            MessageBox.Show("No find any table", "Error");
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
@@ -127,18 +129,18 @@ namespace PP05Tretyakov
         {
             try
             {
-                var t = CBDepartment.SelectedValue.ToString();
+                var t = CbDepartment.SelectedValue.ToString();
                 if (t.Contains("All"))
                 {
-                    EmployeeDG.ItemsSource = _db.Employee.Local.ToBindingList();
+                    EmployeeDg.ItemsSource = _db.Employee.Local.ToBindingList();
                     var summary = CalculationOfContractAmounts();
-                    TBSummary.Text = summary.ToString();
+                    TbSummary.Text = summary.ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {
-                    EmployeeDG.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
+                    EmployeeDg.ItemsSource = _db.Employee.Local.Where(x => x.Department_Name == t).ToList();
                     var summary = CalculationOfContractAmounts();
-                    TBSummary.Text = summary.ToString();
+                    TbSummary.Text = summary.ToString(CultureInfo.InvariantCulture);
                 }
             }
             catch (Exception ex)
@@ -152,7 +154,7 @@ namespace PP05Tretyakov
             try
             {
                 decimal summary = 0;
-                foreach (var item in EmployeeDG.ItemsSource)
+                foreach (var item in EmployeeDg.ItemsSource)
                 {
                     if (item is Employee employee)
                     {
@@ -170,7 +172,7 @@ namespace PP05Tretyakov
             }
         }
 
-        public void ExportDataGridToExcel(DataGrid dataGrid, List<string> columnsToExclude, decimal summary = 0)
+        private void ExportDataGridToExcel(DataGrid dataGrid, List<string> columnsToExclude, decimal summary = 0)
         {
             try
             {
@@ -193,11 +195,11 @@ namespace PP05Tretyakov
                         var worksheet = workbook.Worksheets.Add("Sheet1");
 
                         // Получаем элементы DataGrid
-                        var itemsSource = dataGrid.ItemsSource as IEnumerable;
-                        if (itemsSource == null) return;
+                        if (!(dataGrid.ItemsSource is IEnumerable itemsSource)) return;
 
                         // Получаем тип данных элементов
-                        var itemType = itemsSource.Cast<object>().FirstOrDefault()?.GetType();
+                        var enumerable = itemsSource as object[] ?? itemsSource.Cast<object>().ToArray();
+                        var itemType = enumerable.FirstOrDefault()?.GetType();
                         if (itemType == null) return;
 
                         // Получаем свойства типа данных
@@ -219,7 +221,7 @@ namespace PP05Tretyakov
 
                         // Записываем данные
                         int row = 2;
-                        foreach (var item in itemsSource)
+                        foreach (var item in enumerable)
                         {
                             for (int col = 0; col < properties.Length; col++)
                             {
@@ -247,18 +249,18 @@ namespace PP05Tretyakov
         {
             try
             {
-                var tableName = TabControlName.SelectedItem as TabItem;
-                switch (tableName.Header)
-                {
-                    case "Employee":
-                        var columnsToEmployeeExclude = new List<string> { "Contract", "Department", "Id" };
-                        ExportDataGridToExcel(EmployeeDG, columnsToEmployeeExclude, decimal.Parse(TBSummary.Text));
-                        break;
-                    case "Contract":
-                        var columnsToContractExclude = new List<string> { "Id" };
-                        ExportDataGridToExcel(ContractDG, columnsToContractExclude);
-                        break;
-                }
+                if (TabControlName.SelectedItem is TabItem tableName)
+                    switch (tableName.Header)
+                    {
+                        case "Employee":
+                            var columnsToEmployeeExclude = new List<string> { "Contract", "Department", "Id" };
+                            ExportDataGridToExcel(EmployeeDg, columnsToEmployeeExclude, decimal.Parse(TbSummary.Text));
+                            break;
+                        case "Contract":
+                            var columnsToContractExclude = new List<string> { "Id" };
+                            ExportDataGridToExcel(ContractDg, columnsToContractExclude);
+                            break;
+                    }
             }
             catch (Exception ex)
             {
